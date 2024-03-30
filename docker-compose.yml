@@ -1,0 +1,56 @@
+version: '3.9'
+services:
+  hiclass-db:
+    image: postgres:latest
+    container_name: hiclass-db
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    env_file:
+      - .env
+    networks:
+      - default
+  flyway:
+    image: flyway/flyway
+    command: -url=jdbc:postgresql://${POSTGRES_DB}:${POSTGRES_PORT}/${POSTGRES_DB} -user=${POSTGRES_USER} -password=${POSTGRES_PASSWORD} -locations=filesystem:/flyway/sql -connectRetries=10  migrate -baselineOnMigrate=true 
+    volumes:
+      - ./flyway/sql:/flyway/sql
+    links:
+      - hiclass-db
+    depends_on:
+      - hiclass-db
+    env_file:
+      - .env
+    networks:
+      - default
+  hiclass:
+    image: alesban/hiclass-api
+    container_name: hiclass-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "7280:80"
+    depends_on:
+      hiclass-db:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - default
+  hiclass-rabbitmq:
+    image: masstransit/rabbitmq
+    container_name: hiclass-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./data:/var/lib/rabbitmq
+    env_file:
+      - .env
+    networks:
+      - default
