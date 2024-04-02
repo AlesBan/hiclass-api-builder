@@ -22,4 +22,7 @@ RUN dotnet publish "HiClass.API.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "HiClass.API.dll"]
+
+RUN dotnet tool install --global dotnet-ef --version 6.0.9
+ENV PATH="$PATH:/root/.dotnet/tools"
+ENTRYPOINT dotnet ef database update --project . --startup-project .
