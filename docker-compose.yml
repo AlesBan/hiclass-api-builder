@@ -20,6 +20,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - ./DefaultData:/src/DefaultData
     ports:
       - "7280:80"
     depends_on:
@@ -29,17 +31,17 @@ services:
       - .env
     networks:
       - default
-  hiclass-rabbitmq:
-    image: masstransit/rabbitmq
-    container_name: hiclass-rabbitmq
-    hostname: hiclass-rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    volumes:
-      - ./data:/var/lib/rabbitmq
-    env_file:
-      - .env       
-    networks:
-      - default  
+#  hiclass-rabbitmq:
+#    image: masstransit/rabbitmq
+#    container_name: hiclass-rabbitmq
+#    hostname: hiclass-rabbitmq
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
+#    volumes:
+#      - ./data:/var/lib/rabbitmq
+#    env_file:
+#      - .env       
+#    networks:
+#      - default  
     
