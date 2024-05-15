@@ -10,7 +10,6 @@ COPY ["HiClass.Application/HiClass.Application.csproj", "HiClass.Application/"]
 COPY ["HiClass.Domain/HiClass.Domain.csproj", "HiClass.Domain/"]
 COPY ["HiClass.Infrastructure/HiClass.Infrastructure.csproj", "HiClass.Infrastructure/"]
 COPY ["HiClass.Persistence/HiClass.Persistence.csproj", "HiClass.Persistence/"]
-COPY DefaultData /src/DefaultData
 
 RUN dotnet restore "HiClass.API/HiClass.API.csproj"
 COPY . .
