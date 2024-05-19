@@ -20,8 +20,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - ./DefaultData:/src/DefaultData
     ports:
       - "7280:80"
     depends_on:
@@ -29,5 +27,7 @@ services:
         condition: service_healthy
     env_file:
       - .env
+    volumes:
+      - ./DefaultData:/app/DefaultData
     networks:
       - default
