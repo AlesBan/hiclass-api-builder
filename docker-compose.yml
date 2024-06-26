@@ -29,5 +29,6 @@ services:
       - .env
     volumes:
       - ./DefaultData:/app/DefaultData
+      - ./Configurations:/app/Configurations
     networks:
       - default
