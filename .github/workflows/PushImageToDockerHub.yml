@@ -58,7 +58,7 @@ jobs:
             --tag alesban/hiclass-api-builder:latest \
             --tag alesban/hiclass-api-builder:${{ env.SHORT_SHA }} \
             --push \
-            ./HiСlass.Backend/
+            .
         env:
           DOCKER_BUILDKIT: 1
           BUILDKIT_DEBUG: 1
