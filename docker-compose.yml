@@ -14,6 +14,19 @@ services:
       - .env
     networks:
       - default
+
+  flyway:
+    image: flyway/flyway
+    command: -url=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB} -user=${POSTGRES_USER} -password=${POSTGRES_PASSWORD} -locations=filesystem:/flyway/sql migrate
+    volumes:
+      - ./flyway/sql:/flyway/sql
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    networks:
+      - default
+
   hiclass:
     image: alesban/hiclass-api
     container_name: hiclass-api
@@ -32,3 +45,7 @@ services:
       - ./Configurations:/app/Configurations
     networks:
       - default
+
+networks:
+  default:
+    driver: bridge

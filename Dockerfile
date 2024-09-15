@@ -4,7 +4,6 @@ WORKDIR /src
 EXPOSE 80
 EXPOSE 443
 
-COPY ["Migrations", "HiClass.Persistence/"]
 RUN dotnet restore src/HiСlass.Backend.sln
 
 WORKDIR "/src/HiClass.API"
