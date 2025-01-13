@@ -218,11 +218,6 @@ CREATE TABLE "Feedbacks" (
     CONSTRAINT "FK_Feedbacks_Users_UserFeedbackSenderId" FOREIGN KEY ("UserFeedbackSenderId") REFERENCES "Users" ("UserId") ON DELETE CASCADE
 );
 
-INSERT INTO "Countries" ("CountryId", "Title")
-VALUES ('14d8a226-6f56-4193-a654-0db8d58ed38a', 'Belarus');
-INSERT INTO "Countries" ("CountryId", "Title")
-VALUES ('7feac47d-5c1c-454d-b2ef-c60c6c75ceab', 'Russia');
-
 INSERT INTO "Disciplines" ("DisciplineId", "Title")
 VALUES ('015fa99f-240f-417c-be8e-d7c439121174', 'Chemistry');
 INSERT INTO "Disciplines" ("DisciplineId", "Title")
