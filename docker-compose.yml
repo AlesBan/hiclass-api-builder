@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   postgres:
     image: postgres:latest
@@ -12,8 +11,8 @@ services:
       retries: 5
     env_file:
       - .env
-    networks:
-      - default
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
 
   flyway:
     image: flyway/flyway
@@ -21,20 +20,15 @@ services:
     volumes:
       - ./flyway/sql:/flyway/sql
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     env_file:
       - .env
-    networks:
-      - default
 
-  hiclass:
-    image: alesban/hiclass-api
-    container_name: hiclass-api
-    build:
-      context: .
-      dockerfile: Dockerfile
+  backend:
+    build: ${BACKEND_DIR}/HiСlass.Backend/
     ports:
-      - "7280:80"
+      - "${BACKEND_PORT}:80"
     depends_on:
       postgres:
         condition: service_healthy
@@ -43,9 +37,12 @@ services:
     volumes:
       - ./DefaultData:/app/DefaultData
       - ./Configurations:/app/Configurations
-    networks:
-      - default
 
-networks:
-  default:
-    driver: bridge
+  frontend:
+    build: ${FRONTEND_DIR}
+    ports:
+      - "${FRONTEND_PORT}:3000"
+
+volumes:
+  pgdata:
+
