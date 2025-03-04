@@ -33,13 +33,15 @@ services:
       postgres:
         condition: service_healthy
     env_file:
-      - .env
+      - ${BACKEND_DIR}/.env
     volumes:
       - ./DefaultData:/app/DefaultData
       - ./Configurations:/app/Configurations
 
   frontend:
     build: ${FRONTEND_DIR}
+    env_file:
+      - ${FRONTEND_DIR}/.env
     ports:
       - "${FRONTEND_PORT}:3000"
 
